@@ -69,56 +69,25 @@ A multi-stream IntelliFrame camera uses face and voice profile information of an
 - Roster entry under call room participants.
 - Live transcription with recognition (who said what).
 
-`CsTeamsMeetingPolicy` **enrollUserOverride** tenant policy must be **Enabled**. When an Admin applies the policy, face enrollment option shows up under **Recognition** tab along with voice enrollment.
+Admins can now manage voice and face enrollment using the new csTeamsAIPolicy, which is the current and only supported policy for this capability in Microsoft Teams. This policy is accessible exclusively via Microsoft PowerShell and replaces the previous EnrollUserOverride setting in csTeamsMeetingPolicy.
+
+The new policy includes two distinct settings:
+
+- EnrollVoice: Enabled by default
+
+- EnrollFace: Enabled by default
+
+Admins can turn on or off voice and face enrollment for specific users, or groups using the Team meeting policy. 
+
+Visit [Overview of Voice and Face Enrollment](https://learn.microsoft.com/en-us/microsoftteams/rooms/voice-and-face-recognition) for more details on enrollment
 
 > [!IMPORTANT]
 >
 > - You are responsible for compliance with local laws and regulations when you install an AI intelligent camera and use Face Enrollment and People Recognition in a particular jurisdiction, including with respect to obligations around notice, consent, and data retention.
 > - Please install appropriate signage outside any meeting room, where you install an AI intelligent camera, advising people about the people recognition, face enrollment, and voice recognition features.
-> - You must first enroll for Voice recognition before you can enroll for Face recognition.
 
-- `enrollUserOverride` = {Disabled | Enabled}
-
-  - **Enabled**- Policy value allows Enrollment tab to be seen on individual Teams user accounts for registering voice and face profiles.  
-  - **Disabled** – No enrollment tab option (Default).
-
-  *This policy should already be enabled if tenant already allows voice enrollment.
-
-  :::image type="content" source="../media/enroll-user-override.png" alt-text="Screenshot that shows the voice recognition."
-
-### Enabling people recognition
-
-In some locations, people recognition can't be used due to local laws or regulations.
-
-Enabling people recognition requires the tenant  `CsTeamsMeetingPolicy` **roomPeopleNameUserOverride** to be "**On**" and **roomAttributeUserOverride** to be **Attribute** for allowing individual voice and face profiles to be used for recognition in meetings.
-
-- `roomPeopleNameUserOverride` = {On | Off}
-
-  - **On** - Policy value allows **People recognition** option on Microsoft Teams Rooms under call control bar.  
-  - **Off** – No People Recognition option on Microsoft Teams Room (Default).
-
-- `roomAttributeUserOverride` = {Attribute | Off}
-
-  - **Attribute** - Policy value allows **Voice identification** option on Microsoft Teams Rooms if transcription is started for the meeting.  
-  - **Off** – No Voice identification option on Microsoft Teams Rooms (Default).
 
 For more on information on setting meeting policies, see [Tenant administration control](../rooms/voice-recognition.md) and [Microsoft Teams PowerShell](../teams-powershell-overview.md).
-
-PowerShell cmdlet sample for changing CsTeamsMeetingPolicy
-
-```powershell
-Import-Module MicrosoftTeams
-$credential = Get-Credential   // Enter your admin’s email and password 
-Connect-MicrosoftTeams –Credential $credential
-
-New-CsTeamsMeetingPolicy    // enter identity name and use it in next steps 
-Set-CsTeamsMeetingPolicy -identity {identity_name} –RoomPeopleNameUserOverride On 
-Get-CsTeamsMeetingPolicy -identity {identity_name} // to confirm the changed value.
-
-New-CsTeamsMeetingPolicy // enter identity name and use it in next steps.
-Set-CsTeamsMeetingPolicy -identity {identity_name} –RoomAttributeUserOverride Attribute
-Get-CsTeamsMeetingPolicy -identity {identity_name} // to confirm the changed value. 
-```
 
 
 ## Getting Identified during a meeting. 
