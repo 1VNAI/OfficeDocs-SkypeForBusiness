@@ -79,7 +79,7 @@ The new policy includes two distinct settings:
 
 Admins can turn on or off voice and face enrollment for specific users, or groups using the Team meeting policy. 
 
-Visit [Overview of Voice and Face Enrollment](https://learn.microsoft.com/en-us/microsoftteams/rooms/voice-and-face-recognition) for more details on enrollment
+Visit [Overview of Voice and Face Enrollment](../rooms/voice-and-face-recognition) for more details on enrollment
 
 > [!IMPORTANT]
 >
