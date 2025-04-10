@@ -59,7 +59,7 @@ Sign in to Microsoft Teams Rooms settings as an admin and ensure your camera is 
 
 ## Enabling enrollment option and people recognition
 
-In order for people recognition to function, you need to prepare your organizations by enabling [Face enrollment](#enabling-face-enrollment) and [People recognition](#enabling-people-recognition).
+In order for people recognition to function, you need to prepare your organizations by enabling [Face enrollment](#enabling-face-enrollment) and [People recognition](#getting-identified-during-a-meeting).
 
 ### Enabling face enrollment
 
