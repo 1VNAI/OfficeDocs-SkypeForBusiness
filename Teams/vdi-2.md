@@ -108,7 +108,7 @@ The following registry keys could block new media engine MSIX package installati
 - AllowDevelopmentWithoutDevLicense
 
 > [!IMPORTANT]
-> Managed endpoints/thin clients where BlockNonAdminUserInstall is enabled can still allow SlimCore packages to install by applying KB505294 (Windows 11 23H2 and 22H2) and KB505293 (Windows 11 24H2), or any subsequent KB. This introduces a new Group Policy called "Allowed package family names for non-admin user install" in the Local Group Policy Editor. Administrators can then Allow list SlimCore packages by allowing a complete package familyName (for example, Microsoft.Teams.SlimCoreVdi.win-x64.2024.43_8wekyb3d8bbwe) or use Regex (for example, Microsoft.Teams.SlimCoreVdi.*_8wekyb3d8bbwe)
+> Managed endpoints/thin clients where BlockNonAdminUserInstall is enabled can still allow SlimCore packages to install by applying KB5052094 (Windows 11 23H2 and 22H2) and KB5052093 (Windows 11 24H2), or any subsequent KB. This introduces a new Group Policy called "Allowed package family names for non-admin user install" in the Local Group Policy Editor. Administrators can then Allow list SlimCore packages by allowing a complete package familyName (for example, Microsoft.Teams.SlimCoreVdi.win-x64.2024.43_8wekyb3d8bbwe) or use Regex (for example, Microsoft.Teams.SlimCoreVdi.*_8wekyb3d8bbwe)
 
 > [!IMPORTANT]
 > If AllowAllTrustedApps is disabled, the new media engine (MSIX) installation fails. This issue is fixed in the Windows October cumulative update KB5031455:
@@ -360,7 +360,7 @@ The new solution for VDI stores user-specific data on the endpoint in the follow
 > Locked-down thin clients must allow these locations to be read/write, otherwise the new optimization might fail. For older Windows 10 1809 Thin Clients (such as Dell Wyse 5070 and similar models), the folder location for SlimCore profile is
 `C:\Users\<user>\AppData\Local\Packages\Microsoft.Teams.SlimCoreVdi.win-<architecture>.<version>_8wekyb3d8bbwe\LocalCache\`.
 
-Logs, configurations, and AI or ML models (used in noise suppression, bandwidth estimation, etc.) are saved in this location. If these folders are purged after a user signs out (for example, locked-down thin clients without roaming profiles), MsTeamsVdi.exe recreates them and downloads the user-specific configuration (about 6 MB of data).
+Logs, configurations, and AI or ML models (used in noise suppression, bandwidth estimation, etc.) are saved in this location. If these folders are purged after a user signs out (for example, locked-down thin clients without roaming profiles), MsTeamsVdi.exe recreates them and downloads the user-specific configuration (about 12 MB of data). User-specific data can grow to ~100 MB (including ~60 MB for logs).
 
 ### SlimCore installation and upgrade process in locked down Thin Client environments (optional)
 
@@ -411,7 +411,7 @@ Customers with Thin Clients that have [Unified Write Filters](/windows/configura
 ### Known issues
 
 - AVD RemoteApps and Citrix Published Apps aren't supported at this time.
-- Screen Capture Protection (SCP) causes the presenter's screen to show as a black screen with only the mouse cursor on top it (as seen by the receiving side).
+- Screen Capture Protection (SCP) causes the presenter's screen to show as a black screen with only the mouse cursor on top it (as seen by the receiving side). This has been fixed in Teams 25060.205.3499.6849 and Remote Desktop client 1.2.6081 or Windows app 2.0.379.
 - Calls drop on Teams running on the local machine that has an HID peripheral connected if a user launches a virtual desktop from that same local machine and logs into Teams. This can also happen if the user had an active virtual desktop and launches a second one that has Teams installed (or other Unified Communications apps that use optimization).
 - Camera self preview isn't supported at this time (either under Settings/Devices, or while on a call when selecting the down arrow on the camera icon).
 - In the Control Panel/Apps/Installed apps of the endpoint, users will see multiple "Microsoft Teams VDI" entries (one for every Slimcore package installed).
@@ -458,7 +458,8 @@ Users who have App Protection enabled can still share their screen and apps whil
 
 #### AVD Screen Capture Protection and Microsoft Teams compatibility
 
-Users who have [Screen Capture Protection](/azure/virtual-desktop/screen-capture-protection?tabs=intune) (SCP) enabled can't share their screens or apps. Other people on the call can only see a black screen. If you want to allow users to share their screen even with SCP enabled, you need to disable SlimCore optimization in the Teams Admin Center policy (so the user is optimized with WebRTC), and set the SCP policy to **Block screen capture on client**.
+Users who have [Screen Capture Protection](/azure/virtual-desktop/screen-capture-protection?tabs=intune) (SCP) enabled to block screen capture on the remote desktop client (**Block screen capture on client**) can still share their screen and apps while using the new SlimCore-based optimization for Microsoft Teams. Sharing requires the following minimum versions: Teams 25060.205.3499.6849, and Remote Desktop client 1.2.6081 or Windows App 2.0.379.
+Users on lower versions end up sharing a black screen instead when SCP is enabled.
 
 ### Peripherals in VDI
 
